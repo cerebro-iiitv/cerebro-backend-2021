@@ -8,7 +8,6 @@ class Event(models.Model):
     description = models.CharField(max_length=2000, blank=True)
     prize = models.CharField(max_length=20, blank=True)
     team_size = models.CharField(max_length=20, blank=True)
-    venue = models.CharField(max_length=50, blank=True)
     start_time = models.CharField(max_length=100, blank=False)
     end_time = models.CharField(max_length=100, blank=False)
     about = models.CharField(max_length=1500, blank=True)
