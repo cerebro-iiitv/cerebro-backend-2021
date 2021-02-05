@@ -18,24 +18,14 @@ class Event(models.Model):
 
 
 class Contact(models.Model):
-    event = models.ForeignKey(Event, on_delete=models.CASCADE)
-    convenor = models.CharField(max_length=100, blank=False)
-    role1 = models.CharField(max_length=40)
-    phone_number1 = PhoneNumberField(blank=True)
 
-    co_convenor1 = models.CharField(max_length=100, blank=False)
-    role2 = models.CharField(max_length=40)
-    phone_number2 = PhoneNumberField(blank=True)
+    ROLE_CHOICES = [('Converner', 'Converner'), ('Co_Converner1', 'Co_Converner1'), ('Co_Converner2', 'Co_Converner2'), 
+                    ('Member1', 'Member1'), ('Member2', 'Member2')]
 
-    co_convenor2 = models.CharField(max_length=100, blank=True)
-    role3 = models.CharField(max_length=40, blank=True)
-    phone_number3 = PhoneNumberField(blank=True)
-
-    member1 = models.CharField(max_length=100, blank=False)
-    role4 = models.CharField(max_length=40)
-
-    member2 = models.CharField(max_length=100, blank=False)
-    role5 = models.CharField(max_length=40)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='EventContact')
+    name = models.CharField(max_length=100, blank=False)
+    role = models.CharField(max_length=15, choices=ROLE_CHOICES)
+    phone_number = PhoneNumberField(blank=True)
 
     def __str__(self):
-        return str(self.pk)
+        return self.name
