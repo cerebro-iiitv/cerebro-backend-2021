@@ -16,6 +16,8 @@ phonenumbers = "*"
 pillow = "*"
 whitenoise = "*"
 black = "*"
+djangorestframework-simplejwt = "*"
+requests = "*"
 
 [requires]
 python_version = "3.9"
