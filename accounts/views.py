@@ -13,7 +13,7 @@ import requests
 
 
 def index(request):
-    return render(request, 'accounts/base.html')
+    return render(request, "accounts/base.html")
 
 
 class AccountViewSets(ModelViewSet):
@@ -23,24 +23,29 @@ class AccountViewSets(ModelViewSet):
 
 class GoogleLogin(APIView):
     def post(self, request):
-        payload = {'access_token': request.data.get('Token')}
-        r = requests.get('https://www.googleapis.com/oauth2/v2/userinfo', params=payload)
+        payload = {"access_token": request.data.get("Token")}
+        r = requests.get(
+            "https://www.googleapis.com/oauth2/v2/userinfo", params=payload
+        )
         data = json.loads(r.text)
         print(data)
 
-        if 'error' in data:
-            return Response({'error': 'invalid google token or this token has already expired'}, status=status.HTTP_200_OK)
+        if "error" in data:
+            return Response(
+                {"error": "invalid google token or this token has already expired"},
+                status=status.HTTP_200_OK,
+            )
 
         try:
-            user = Account.objects.get(email=data['email'])
+            user = Account.objects.get(email=data["email"])
         except Account.DoesNotExist:
-            return Response({'Account not found': 'user with given account does not exist'})
-        
+            return Response(
+                {"Account not found": "user with given account does not exist"}
+            )
+
         token = RefreshToken.for_user(user)
         response = {}
-        response['email'] = user.email
-        response['access_token'] = str(token.access_token)
-        response['refresh_token'] = str(token)
+        response["email"] = user.email
+        response["access_token"] = str(token.access_token)
+        response["refresh_token"] = str(token)
         return Response(response, status=status.HTTP_200_OK)
-        
-
