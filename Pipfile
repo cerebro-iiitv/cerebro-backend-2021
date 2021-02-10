@@ -4,7 +4,6 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-black = "*"
 
 [packages]
 django = "*"
@@ -15,9 +14,9 @@ django-phonenumber-field = "*"
 phonenumbers = "*"
 pillow = "*"
 whitenoise = "*"
-black = "*"
 djangorestframework-simplejwt = "*"
 requests = "*"
+black = "*"
 
 [requires]
 python_version = "3.8"
