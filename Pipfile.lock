@@ -125,11 +125,11 @@
         },
         "phonenumbers": {
             "hashes": [
-                "sha256:c14eee6fa24f37ca1ead7ba3b8e5b84763f97c74ade728fa157de6d95c7469c0",
-                "sha256:f5d57c9fc8f7162ba562325d69d65b4f76e750951c5945c57876e94d824392ec"
+                "sha256:0aa0f5e1382d292a7ff2f8bc08673126521461c7f908e0220756449a734d8fef",
+                "sha256:f60b1cc7b424cdadf5c291ed839d1c623a46ca1e4d0a04d3e85d1fdf754c1a26"
             ],
             "index": "pypi",
-            "version": "==8.12.17"
+            "version": "==8.12.18"
         },
         "pillow": {
             "hashes": [
