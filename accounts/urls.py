@@ -11,6 +11,7 @@ router.register("accounts", views.AccountViewSets,
 app_name = 'accounts'
 urlpatterns = [
     path('', views.index, name='index'),
+    path('googlelogin/', views.GoogleLogin.as_view(), name='googlelogin')
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
