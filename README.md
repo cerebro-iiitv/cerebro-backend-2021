@@ -1,5 +1,5 @@
 <p align="center"><img src="templates/Logo-02.png" align="center" width="225"></p>
-<h1 align="center">cerebro-backend-2020</h1>
+<h1 align="center">cerebro-backend-2021</h1>
 
 <h4 align="center"> Website for Cerebro 2021 powered by
 <img src="https://cdn2.iconfinder.com/data/icons/designer-skills/128/react-512.png" width="40" align="center"> and
@@ -12,7 +12,7 @@
 ## Setup
 
 ```sh
-$ git clone https://github.com/yashshah2820/cerebro-backend-2021.git
+$ git clone https://github.com/cerebro-iiitv/cerebro-backend-2021.git
 $ cd cerebro-backend-2021
 ```
 
