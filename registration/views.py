@@ -1,3 +1,67 @@
+from rest_framework import response
+from events.models import Event
+from django.db import models
 from django.shortcuts import render
+from rest_framework.views import APIView
+from rest_framework.viewsets import ModelViewSet
+from rest_framework.response import Response
+from .models import TeamMember, TeamStatus
+from accounts.models import Account
+from events.models import Event
+from .serializers import TeamRegisterSerializer, AccountDashboardSerializers
+import secrets
 
-# Create your views here.
+
+def index(request):
+    return render(request, "accounts/base.html")
+
+class RegisterTeamView(APIView):
+
+    def post(self, request):
+        serializer = TeamRegisterSerializer(data=request.data)
+        if serializer.is_valid():
+            account_id = serializer.data.get('account_id')
+            event_id = serializer.data.get('event_id')
+            team_code = serializer.data.get('team_code')
+
+            try:
+                TeamMember.objects.get(account = account_id, event = event_id)
+                return Response({'Error': f'{account_id} already registered to the event'})
+            except TeamMember.DoesNotExist:
+                account = Account.objects.get(id=account_id)
+                event = Event.objects.get(id=event_id)
+                if team_code:
+                    try:
+                        reg_team = TeamStatus.objects.get(team_code=team_code)
+                        if(event_id != reg_team.event.id):
+                            return Response({'Error': 'Invalid Team Code'})
+                        if reg_team.current_size < event.team_size:
+                            team_member = TeamMember.objects.create(account=account, event=event, team=reg_team)
+                            team_member.save()
+                            reg_team.current_size += 1
+                            
+                            if reg_team.current_size == reg_team.event.team_size:
+                                reg_team.is_full = True
+                            reg_team.save()
+                            return Response({'Success': f'{account_id} added to team with code {team_code}'})
+                        else:
+                            return Response({'Error': 'The team is full'})
+                    except TeamStatus.DoesNotExist:
+                        return Response({'Error': 'Invalid Team Code'})
+
+                else:
+                    team_code = secrets.token_hex(5)  
+                    team = TeamStatus(event=event, team_code=team_code)
+                    if event.team_size == 1:
+                        team.is_full = True
+                    team.save()
+
+                    team_member = TeamMember.objects.create(account=account, event=event, team=team)
+                    team_member.save()
+                return Response({'Success': f'Team Code:- {team_code}'})
+        else:
+            return Response({'error': 'Invalid Request'})
+
+class DashboardViewSets(ModelViewSet):
+    serializer_class = AccountDashboardSerializers
+    queryset = Account.objects.all()
