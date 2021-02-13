@@ -1,32 +1,39 @@
-from rest_framework import response
 from events.models import Event
-from django.db import models
 from django.shortcuts import render
-from rest_framework.views import APIView
+from rest_framework import status
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from .models import TeamMember, TeamStatus
 from accounts.models import Account
 from events.models import Event
-from .serializers import TeamRegisterSerializer, AccountDashboardSerializers
+from .serializers import AccountDashboardSerializers, TeamMemberSerializers
 import secrets
 
 
 def index(request):
     return render(request, "accounts/base.html")
 
-class RegisterTeamView(APIView):
+class DashboardViewSets(ModelViewSet):
+    serializer_class = AccountDashboardSerializers
+    queryset = Account.objects.all()
 
-    def post(self, request):
-        serializer = TeamRegisterSerializer(data=request.data)
-        if serializer.is_valid():
-            account_id = serializer.data.get('account_id')
-            event_id = serializer.data.get('event_id')
+
+class TeamViewSets(ModelViewSet):
+    serializer_class = TeamMemberSerializers
+    queryset = TeamMember.objects.all()
+
+    def create(self, request, *args, **kwargs):
+        
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            account_id = serializer.data.get('account')
+            print(account_id)
+            event_id = serializer.data.get('event')
             team_code = serializer.data.get('team_code')
 
             try:
                 TeamMember.objects.get(account = account_id, event = event_id)
-                return Response({'Error': f'{account_id} already registered to the event'})
+                return Response({'Error': f'{account_id} already registered to the event'}, status=status.HTTP_400_BAD_REQUEST)
             except TeamMember.DoesNotExist:
                 account = Account.objects.get(id=account_id)
                 event = Event.objects.get(id=event_id)
@@ -34,7 +41,7 @@ class RegisterTeamView(APIView):
                     try:
                         reg_team = TeamStatus.objects.get(team_code=team_code)
                         if(event_id != reg_team.event.id):
-                            return Response({'Error': 'Invalid Team Code'})
+                            return Response({'Error': 'Invalid Team Code'}, status=status.HTTP_400_BAD_REQUEST)
                         if reg_team.current_size < event.team_size:
                             team_member = TeamMember.objects.create(account=account, event=event, team=reg_team)
                             team_member.save()
@@ -43,11 +50,11 @@ class RegisterTeamView(APIView):
                             if reg_team.current_size == reg_team.event.team_size:
                                 reg_team.is_full = True
                             reg_team.save()
-                            return Response({'Success': f'{account_id} added to team with code {team_code}'})
+                            return Response({'Success': f'{account_id} added to team with code {team_code}'}, status=status.HTTP_201_CREATED)
                         else:
-                            return Response({'Error': 'The team is full'})
+                            return Response({'Error': 'The team is full'}, status=status.HTTP_406_NOT_ACCEPTABLE)
                     except TeamStatus.DoesNotExist:
-                        return Response({'Error': 'Invalid Team Code'})
+                        return Response({'Error': 'Invalid Team Code'}, status=status.HTTP_400_BAD_REQUEST)
 
                 else:
                     team_code = secrets.token_hex(5)  
@@ -58,10 +65,6 @@ class RegisterTeamView(APIView):
 
                     team_member = TeamMember.objects.create(account=account, event=event, team=team)
                     team_member.save()
-                return Response({'Success': f'Team Code:- {team_code}'})
-        else:
-            return Response({'error': 'Invalid Request'})
-
-class DashboardViewSets(ModelViewSet):
-    serializer_class = AccountDashboardSerializers
-    queryset = Account.objects.all()
+                return Response({'Success': f'Team Code:- {team_code}'}, status=status.HTTP_201_CREATED)
+        else :
+            return Response({'error': 'Invalid Request'}, status=status.HTTP_400_BAD_REQUEST)
