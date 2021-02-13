@@ -7,7 +7,7 @@ class Event(models.Model):
     event = models.CharField(max_length=100, blank=False)
     description = models.CharField(max_length=2000, blank=True)
     prize = models.CharField(max_length=20, blank=True)
-    team_size = models.CharField(max_length=20, blank=True)
+    team_size = models.IntegerField(default=1)
     start_time = models.CharField(max_length=100, blank=False)
     end_time = models.CharField(max_length=100, blank=False)
     about = models.CharField(max_length=1500, blank=True)
