@@ -1,4 +1,5 @@
 from django.urls import path
+from django.views.generic import base
 from rest_framework.urlpatterns import format_suffix_patterns
 from rest_framework.routers import SimpleRouter
 from . import views

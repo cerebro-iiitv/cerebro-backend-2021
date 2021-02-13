@@ -1,5 +1,3 @@
-from django.contrib.auth.base_user import BaseUserManager
-from django.contrib.auth.models import User
 from django.shortcuts import render
 from rest_framework import status
 from rest_framework.utils import json
@@ -10,7 +8,6 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from accounts.serializers import AccountSerializers
 from accounts.models import Account
 import requests
-
 
 def index(request):
     return render(request, "accounts/base.html")
@@ -49,3 +46,4 @@ class GoogleLogin(APIView):
         response["access_token"] = str(token.access_token)
         response["refresh_token"] = str(token)
         return Response(response, status=status.HTTP_200_OK)
+
