@@ -1,5 +1,3 @@
-from django.db import models
-from django.db.models import fields
 from rest_framework import serializers
 from accounts.models import Account
 from .models import TeamMember
@@ -19,7 +17,9 @@ class AccountDashboardSerializers(serializers.ModelSerializer):
         model = Account
         fields = '__all__'
 
-class TeamRegisterSerializer(serializers.Serializer):
-    account_id = serializers.IntegerField(required = True)
-    event_id = serializers.IntegerField(required = True)
-    team_code = serializers.CharField(default = None)
+class TeamMemberSerializers(serializers.ModelSerializer):
+    team_code = serializers.CharField(required = False, source='team.team_code')
+
+    class Meta:
+        model = TeamMember
+        fields = ['account', 'event', 'team_code']
