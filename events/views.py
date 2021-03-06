@@ -1,7 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.permissions import IsAuthenticated
-from events.models import Event, Contact
-from events.serializers import EventSerializers, ContactSerializers
+
+from events.models import Contact, Event
+from events.serializers import ContactSerializers, EventSerializers
 
 
 class EventViewSets(ModelViewSet):

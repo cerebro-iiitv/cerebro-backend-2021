@@ -2,4 +2,4 @@ from django.shortcuts import render
 
 
 def landing_page(request):
-    return render(request, 'api/base.html')
+    return render(request, "api/base.html")

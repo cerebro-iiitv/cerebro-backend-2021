@@ -4,14 +4,13 @@ from rest_framework.routers import SimpleRouter
 from . import views
 
 router = SimpleRouter()
-router.register("accounts", views.AccountViewSets,
-                basename='api-account')
+router.register("accounts", views.AccountViewSets, basename="api-account")
 
 
-app_name = 'accounts'
+app_name = "accounts"
 urlpatterns = [
-    path('', views.index, name='index'),
-    path('googlelogin/', views.GoogleLogin.as_view(), name='googlelogin')
+    path("", views.index, name="index"),
+    path("googlelogin/", views.GoogleLogin.as_view(), name="googlelogin"),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

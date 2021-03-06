@@ -3,7 +3,6 @@ from accounts.models import Account
 
 
 class AccountSerializers(serializers.ModelSerializer):
-
     class Meta:
         model = Account
-        fields = '__all__'
+        fields = "__all__"
