@@ -17,6 +17,7 @@ whitenoise = "*"
 djangorestframework-simplejwt = "*"
 requests = "*"
 black = "*"
+serpy = "*"
 
 [requires]
 python_version = "3.8"

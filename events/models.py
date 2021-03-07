@@ -3,7 +3,16 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 
 class Event(models.Model):
-    priority = models.IntegerField(blank=True)
+
+    EVENT_TYPE_CHOICES = [
+        ("Technical", "Technical"),
+        ("Gaming", "Gaming"),
+        ("Design and Photography", "Design and Photography"),
+        ("Literature", "Literature"),
+    ]
+
+    priority = models.IntegerField(blank=True, null=True)
+    event_type = models.CharField(max_length=30, choices=EVENT_TYPE_CHOICES)
     title = models.CharField(max_length=100, blank=False)
     description = models.CharField(max_length=2000, blank=True)
     prize = models.CharField(max_length=20, blank=True)
@@ -26,10 +35,23 @@ class Contact(models.Model):
         ("Member2", "Member2"),
     ]
 
+    priority = models.IntegerField(blank=True, null=True)
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="events")
     name = models.CharField(max_length=100, blank=False)
-    role = models.CharField(max_length=15, choices=ROLE_CHOICES)
+    role = models.CharField(max_length=15, choices=ROLE_CHOICES, blank=False)
     phone_number = PhoneNumberField(blank=True)
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        if self.role == "Convenor":
+            self.priority = 1
+
+        elif self.role == "Co_Convenor1" or self.role == "Co_Convenor2":
+            self.priority = 2
+
+        elif self.role == "Member1" or self.role == "Member2":
+            self.priority = 3
+
+        super(Contact, self).save(*args, **kwargs)

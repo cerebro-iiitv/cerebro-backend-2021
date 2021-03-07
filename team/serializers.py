@@ -2,7 +2,18 @@ from rest_framework import serializers
 from team.models import Team
 
 
-class TeamSerializers(serializers.ModelSerializer):
+class TeamSerializer(serializers.ModelSerializer):
     class Meta:
         model = Team
-        fields = "__all__"
+        fields = (
+            "id",
+            "name",
+            "team",
+            "role",
+            "profilepic",
+            "portfolio",
+            "github",
+            "linked_in",
+            "twitter",
+            "dribbble",
+        )

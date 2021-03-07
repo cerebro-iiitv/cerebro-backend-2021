@@ -2,9 +2,9 @@ from django.db import models
 
 
 ROLE_CHOICES = [
-    ("Student Convener", "Student Convenor"),
+    ("Student Convenor", "Student Convenor"),
     ("Technical Lead", "Technical Lead"),
-    ("Convener", "Convener"),
+    ("Convenor", "Convenor"),
     ("Head", "Head"),
     ("Co-Head", "Co-Head"),
     ("Member", "Member"),
@@ -22,6 +22,7 @@ TEAM_CHOICES = [
 
 
 class Team(models.Model):
+    priority = models.IntegerField(blank=True, null=True)
     name = models.CharField(max_length=100, blank=False)
     team = models.CharField(max_length=100, choices=TEAM_CHOICES)
     role = models.CharField(max_length=100, blank=False, choices=ROLE_CHOICES)
@@ -30,4 +31,23 @@ class Team(models.Model):
     github = models.URLField(blank=True)
     linked_in = models.URLField(blank=True)
     twitter = models.URLField(blank=True)
-    dribble = models.URLField(blank=True)
+    dribbble = models.URLField(blank=True)
+
+    def save(self, *args, **kwargs):
+        if self.role == "Student Convenor":
+            self.priority = 0
+
+        elif (
+            self.role == "Convenor"
+            or self.role == "Technical Lead"
+            or self.role == "Head"
+        ):
+            self.priority = 1
+
+        elif self.role == "Co-Head":
+            self.priority = 2
+
+        elif self.role == "Member":
+            self.priority = 3
+
+        super(Team, self).save(*args, **kwargs)
