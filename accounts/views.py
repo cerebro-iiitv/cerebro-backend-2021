@@ -1,20 +1,21 @@
+import requests
 from django.shortcuts import render
 from rest_framework import status
+from rest_framework.response import Response
 from rest_framework.utils import json
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
-from accounts.serializers import AccountSerializers
+
 from accounts.models import Account
-import requests
+from accounts.serializers import AccountSerializer
 
 def index(request):
     return render(request, "accounts/base.html")
 
 
-class AccountViewSets(ModelViewSet):
-    serializer_class = AccountSerializers
+class AccountViewSet(ModelViewSet):
+    serializer_class = AccountSerializer
     queryset = Account.objects.all()
 
 

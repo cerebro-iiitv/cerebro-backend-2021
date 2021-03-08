@@ -1,18 +1,25 @@
 from rest_framework import serializers
-from events.models import Event, Contact
+
+from events.models import Contact, Event
 
 
-class ContactSerializers(serializers.ModelSerializer):
-
-    class Meta:
-        model = Contact
-        fields = '__all__'
-
-
-class EventSerializers(serializers.ModelSerializer):
-
-    EventContact = ContactSerializers(many=True)
-
+class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
-        fields = '__all__'
+        fields = (
+            "id",
+            "event_type",
+            "title",
+            "description",
+            "prize",
+            "team_size",
+            "start_time",
+            "end_time",
+            "rules_doc",
+        )
+
+
+class ContactSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Contact
+        fields = ("id", "name", "role", "phone_number")

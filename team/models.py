@@ -1,15 +1,53 @@
 from django.db import models
 
 
-class Team(models.Model):
-    name = models.CharField(max_length=100, blank=False)
-    team = models.CharField(max_length=100, )
-    role = models.CharField(max_length=100, blank=False)
-    profilepic = models.ImageField(upload_to='team-profilepics', blank=True)
-    github = models.URLField(max_length=1000, blank=True)
-    linkedIn = models.URLField(max_length=1000, blank=True)
-    twitter = models.URLField(max_length=1000, blank=True)
-    dribble = models.URLField(max_length=1000, blank=True)
+ROLE_CHOICES = [
+    ("Student Convenor", "Student Convenor"),
+    ("Technical Lead", "Technical Lead"),
+    ("Convenor", "Convenor"),
+    ("Head", "Head"),
+    ("Co-Head", "Co-Head"),
+    ("Member", "Member"),
+]
 
-    def __str__(self):
-        return self.team + ' - ' + self.role
+TEAM_CHOICES = [
+    ("Core", "Core"),
+    ("Core Support", "Core Support"),
+    ("Development", "Web Dev"),
+    ("Design", "Design"),
+    ("Video Editing", "Video Editing"),
+    ("PR", "PR"),
+    ("Gaming", "Gaming"),
+]
+
+
+class Team(models.Model):
+    priority = models.IntegerField(blank=True, null=True)
+    name = models.CharField(max_length=100, blank=False)
+    team = models.CharField(max_length=100, choices=TEAM_CHOICES)
+    role = models.CharField(max_length=100, blank=False, choices=ROLE_CHOICES)
+    profilepic = models.ImageField(upload_to="team-profilepics", blank=True)
+    portfolio = models.URLField(blank=True)
+    github = models.URLField(blank=True)
+    linked_in = models.URLField(blank=True)
+    twitter = models.URLField(blank=True)
+    dribbble = models.URLField(blank=True)
+
+    def save(self, *args, **kwargs):
+        if self.role == "Student Convenor":
+            self.priority = 0
+
+        elif (
+            self.role == "Convenor"
+            or self.role == "Technical Lead"
+            or self.role == "Head"
+        ):
+            self.priority = 1
+
+        elif self.role == "Co-Head":
+            self.priority = 2
+
+        elif self.role == "Member":
+            self.priority = 3
+
+        super(Team, self).save(*args, **kwargs)
