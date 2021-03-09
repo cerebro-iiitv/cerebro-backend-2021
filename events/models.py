@@ -16,7 +16,7 @@ class Event(models.Model):
     title = models.CharField(max_length=100, blank=False)
     description = models.CharField(max_length=2000, blank=True)
     prize = models.CharField(max_length=20, blank=True)
-    team_size = models.CharField(max_length=20, blank=True)
+    team_size = models.IntegerField(default=1)
     start_time = models.CharField(max_length=100, blank=False)
     end_time = models.CharField(max_length=100, blank=False)
     rules_doc = models.FileField(upload_to="rules", blank=True)

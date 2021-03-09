@@ -10,7 +10,6 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from accounts.models import Account
 from accounts.serializers import AccountSerializer
 
-
 def index(request):
     return render(request, "accounts/base.html")
 
@@ -48,3 +47,4 @@ class GoogleLogin(APIView):
         response["access_token"] = str(token.access_token)
         response["refresh_token"] = str(token)
         return Response(response, status=status.HTTP_200_OK)
+

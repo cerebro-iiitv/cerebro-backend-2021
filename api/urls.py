@@ -22,6 +22,7 @@ urlpatterns = [
     path("", views.landing_page, name="landing"),
     path("admin/", admin.site.urls),
     path("account/", include("accounts.urls")),
+    path('registration/', include('registration.urls')),
 ]
 
 urlpatterns += router.urls
