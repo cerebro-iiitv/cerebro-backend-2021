@@ -9,6 +9,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from accounts.models import Account
 from accounts.serializers import AccountSerializer
+from registration.models import Dashboard
 
 def index(request):
     return render(request, "accounts/base.html")
@@ -37,10 +38,8 @@ class GoogleLogin(APIView):
         try:
             user = Account.objects.get(email=data["email"])
         except Account.DoesNotExist:
-            return Response(
-                {"Account not found": "user with given account does not exist"}
-            )
-
+            user = Account.objects.create(email=data["email"], first_name=data["given_name"], last_name=data["family_name"], 
+                                            profile_pic=data["picture"])            
         token = RefreshToken.for_user(user)
         response = {}
         response["email"] = user.email
