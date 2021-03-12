@@ -3,7 +3,7 @@ from accounts.models import Account
 from .models import TeamMember
 
 class TeamMemberSerializers(serializers.ModelSerializer):
-    event_name = serializers.CharField(source='event.event')
+    event_name = serializers.CharField(source='event.title')
     team_code = serializers.CharField(source='team.team_code')
 
     class Meta:
