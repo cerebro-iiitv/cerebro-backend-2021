@@ -27,7 +27,6 @@ class GoogleLogin(APIView):
             "https://www.googleapis.com/oauth2/v2/userinfo", params=payload
         )
         data = json.loads(r.text)
-        print(data)
 
         if "error" in data:
             return Response(
@@ -43,6 +42,7 @@ class GoogleLogin(APIView):
         token = RefreshToken.for_user(user)
         response = {}
         response["email"] = user.email
+        response["user_id"] = user.id
         response["access_token"] = str(token.access_token)
         response["refresh_token"] = str(token)
         return Response(response, status=status.HTTP_200_OK)
