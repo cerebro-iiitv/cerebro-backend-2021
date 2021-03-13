@@ -57,7 +57,7 @@ class TeamViewSets(ModelViewSet):
                         return Response({'Error': 'Invalid Team Code'}, status=status.HTTP_400_BAD_REQUEST)
 
                 else:
-                    team_code = event.event + '#' +  f'{random.randint(0, 1000)}'.zfill(3)  
+                    team_code = event.title + '#' +  f'{random.randint(0, 1000)}'.zfill(3)  
                     team = TeamStatus(event=event, team_code=team_code)
                     if event.team_size == 1:
                         team.is_full = True

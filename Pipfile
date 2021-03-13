@@ -10,7 +10,7 @@ django = "*"
 djangorestframework = "*"
 django-cors-headers = "*"
 python-decouple = "*"
-django-phonenumber-field = "*"
+django-phonenumber-field = {extras = ["phonenumbers"], version = "*"}
 phonenumbers = "*"
 pillow = "*"
 whitenoise = "*"
