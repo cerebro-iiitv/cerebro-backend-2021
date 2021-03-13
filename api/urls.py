@@ -9,6 +9,7 @@ from rest_framework.routers import SimpleRouter
 from events.views import ContactViewSet, EventViewSet
 from team.views import TeamViewSet
 from accounts.views import AccountViewSet
+from faqs.views import FaqViewSet
 from . import views
 
 router = SimpleRouter()
@@ -17,6 +18,7 @@ router.register("teams", TeamViewSet, basename="api-team")
 router.register("accounts", AccountViewSet, basename="api-account")
 router.register("events", EventViewSet, basename="api-events")
 router.register("contacts", ContactViewSet, basename="api-contact")
+router.register("faqs", FaqViewSet, basename="api-faqs")
 
 urlpatterns = [
     path("", views.landing_page, name="landing"),
