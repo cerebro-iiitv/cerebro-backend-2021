@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     "events.apps.EventsConfig",
     "registration.apps.RegistrationConfig",
     "team.apps.TeamConfig",
+    "faqs.apps.FaqsConfig",
     "corsheaders",
     "rest_framework",
     "phonenumber_field",

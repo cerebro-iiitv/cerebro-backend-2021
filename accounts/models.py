@@ -10,4 +10,3 @@ class Account(models.Model):
 
     def __str__(self):
         return self.email + " (" + self.first_name + " " + self.last_name + ")"
-

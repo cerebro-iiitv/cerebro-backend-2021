@@ -5,10 +5,10 @@ from phonenumber_field.modelfields import PhoneNumberField
 class Event(models.Model):
 
     EVENT_TYPE_CHOICES = [
-        ("Technical", "Technical"),
-        ("Gaming", "Gaming"),
-        ("Design and Photography", "Design and Photography"),
-        ("Literature", "Literature"),
+        ("tech", "Technical"),
+        ("gaming", "Gaming"),
+        ("design-photo", "Design and Photography"),
+        ("lit", "Literature"),
     ]
 
     priority = models.IntegerField(blank=True, null=True)
@@ -29,8 +29,8 @@ class Contact(models.Model):
 
     ROLE_CHOICES = [
         ("Convenor", "Convenor"),
-        ("Co_Convenor1", "Co_Convenor1"),
-        ("Co_Convenor2", "Co_Convenor2"),
+        ("Co-Convenor1", "Co_Convenor1"),
+        ("Co-Convenor2", "Co_Convenor2"),
         ("Member1", "Member1"),
         ("Member2", "Member2"),
     ]
@@ -48,7 +48,7 @@ class Contact(models.Model):
         if self.role == "Convenor":
             self.priority = 1
 
-        elif self.role == "Co_Convenor1" or self.role == "Co_Convenor2":
+        elif self.role == "Co-Convenor1" or self.role == "Co-Convenor2":
             self.priority = 2
 
         elif self.role == "Member1" or self.role == "Member2":
