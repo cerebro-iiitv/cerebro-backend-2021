@@ -1,15 +1,15 @@
-from accounts.views import AccountViewSet
 from django.conf import settings
 from django.conf.urls import include
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import path
+from rest_framework.routers import SimpleRouter
+
+from accounts.views import AccountViewSet, DashboardViewSet
 from events.views import ContactViewSet, EventViewSet
 from faqs.views import FaqViewSet
-from rest_framework.routers import SimpleRouter
 from team.views import TeamViewSet
-from accounts.views import DashboardViewSet
 
 from . import views
 
