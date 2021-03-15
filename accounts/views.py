@@ -8,7 +8,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from accounts.models import Account
-from accounts.serializers import AccountSerializer
+from accounts.serializers import AccountSerializer, AccountDashboardSerializer
 from registration.models import Dashboard
 
 def index(request):
@@ -17,6 +17,11 @@ def index(request):
 
 class AccountViewSet(ModelViewSet):
     serializer_class = AccountSerializer
+    queryset = Account.objects.all()
+
+
+class DashboardViewSet(ModelViewSet):
+    serializer_class = AccountDashboardSerializer
     queryset = Account.objects.all()
 
 

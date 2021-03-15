@@ -1,23 +1,16 @@
 import random
-
 from accounts.models import Account
 from django.shortcuts import render
 from events.models import Event
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
-
 from registration.models import TeamMember, TeamStatus
-from registration.serializers import AccountDashboardSerializer, TeamMemberSerializer
+from registration.serializers import TeamMemberSerializer
 
 
 def index(request):
     return render(request, "accounts/base.html")
-
-
-class DashboardViewSet(ModelViewSet):
-    serializer_class = AccountDashboardSerializer
-    queryset = Account.objects.all()
 
 
 class TeamRegistrationViewSet(ModelViewSet):
