@@ -3,10 +3,9 @@ from django.urls import path
 from rest_framework.routers import SimpleRouter
 from rest_framework.urlpatterns import format_suffix_patterns
 
-from .views import DashboardViewSet, TeamRegistrationViewSet, index
+from .views import TeamRegistrationViewSet, index
 
 router = SimpleRouter()
-router.register("dashboard", DashboardViewSet, basename="api-dashboard")
 router.register("team-register", TeamRegistrationViewSet, basename="api-team")
 
 
