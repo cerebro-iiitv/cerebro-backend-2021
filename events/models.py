@@ -14,6 +14,7 @@ class Event(models.Model):
     priority = models.IntegerField(blank=True, null=True)
     event_type = models.CharField(max_length=30, choices=EVENT_TYPE_CHOICES)
     title = models.CharField(max_length=100, blank=False)
+    short_name = models.CharField(max_length=4, blank=True)
     description = models.CharField(max_length=2000, blank=True)
     prize = models.CharField(max_length=20, blank=True)
     team_size = models.IntegerField(default=1)
