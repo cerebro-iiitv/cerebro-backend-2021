@@ -10,6 +10,7 @@ from accounts.views import AccountViewSet, DashboardViewSet
 from events.views import ContactViewSet, EventViewSet
 from faqs.views import FaqViewSet
 from team.views import TeamViewSet
+from accounts.views import DashboardViewSet
 
 from . import views
 
