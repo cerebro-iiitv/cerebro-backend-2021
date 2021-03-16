@@ -20,7 +20,7 @@ class Event(models.Model):
     team_size = models.IntegerField(default=1)
     start_time = models.CharField(max_length=100, blank=False)
     end_time = models.CharField(max_length=100, blank=False)
-    rules_doc = models.FileField(upload_to="rules", blank=True)
+    rules_doc = models.URLField(blank=True)
 
     def __str__(self):
         return self.title
