@@ -1,4 +1,7 @@
+import events
+from accounts import serializers
 import random
+import accounts
 from accounts.models import Account
 from django.shortcuts import render
 from events.models import Event
@@ -22,7 +25,6 @@ class TeamRegistrationViewSet(ModelViewSet):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid(raise_exception=True):
             account_id = serializer.data.get("account")
-            print(account_id)
             event_id = serializer.data.get("event")
             team_code = serializer.data.get("team_code")
 
@@ -90,4 +92,24 @@ class TeamRegistrationViewSet(ModelViewSet):
         else:
             return Response(
                 {"error": "Invalid Request"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+    def destroy(self, request, *args, **kwargs):
+
+        try:
+            team_member = TeamMember.objects.get(id = kwargs.get("pk"))
+            team = team_member.team
+            team.current_size -= 1
+            if team.current_size == 0:
+                team.delete()
+            else :
+                team.is_full = False
+                team.save()
+                team_member.delete()
+            return Response(
+                {"Success": "De registered from " + team.event.title}, status=status.HTTP_204_NO_CONTENT
+            )
+        except TeamMember.DoesNotExist:
+            return Response(
+                {"error": "Given user is not registered to the event"}, status=status.HTTP_400_BAD_REQUEST 
             )
