@@ -7,11 +7,14 @@ class TeamModelAdmin(admin.ModelAdmin):
         "id",
         "name",
         "role",
+        "team",
     )
     search_fields = (
         "name",
         "role",
+        "team",
     )
+    list_filter = ("team",)
 
 
 admin.site.register(Team, TeamModelAdmin)
