@@ -67,16 +67,12 @@ htmlcov/
 nosetests.xml
 coverage.xml
 *.cover
-<<<<<<< HEAD
 *.py,cover
-=======
->>>>>>> 55725ab42f4eb2f1055364af2165898ac7667d2d
 .hypothesis/
 .pytest_cache/
 
 # Translations
 *.mo
-<<<<<<< HEAD
 *.pot
 
 # Django stuff:
@@ -88,8 +84,6 @@ db.sqlite3-journal
 # Flask stuff:
 instance/
 .webassets-cache
-=======
->>>>>>> 55725ab42f4eb2f1055364af2165898ac7667d2d
 
 # Scrapy stuff:
 .scrapy
@@ -100,7 +94,6 @@ docs/_build/
 # PyBuilder
 target/
 
-<<<<<<< HEAD
 # Jupyter Notebook
 .ipynb_checkpoints
 
@@ -108,8 +101,6 @@ target/
 profile_default/
 ipython_config.py
 
-=======
->>>>>>> 55725ab42f4eb2f1055364af2165898ac7667d2d
 # pyenv
 .python-version
 
@@ -120,22 +111,18 @@ ipython_config.py
 #   install all needed dependencies.
 #Pipfile.lock
 
-<<<<<<< HEAD
 # PEP 582; used by e.g. github.com/David-OConnor/pyflow
 __pypackages__/
 
 # Celery stuff
 celerybeat-schedule
 celerybeat.pid
-=======
 # celery beat schedule file
 celerybeat-schedule
->>>>>>> 55725ab42f4eb2f1055364af2165898ac7667d2d
 
 # SageMath parsed files
 *.sage.py
 
-<<<<<<< HEAD
 # Environments
 .env
 .venv
@@ -145,8 +132,6 @@ ENV/
 env.bak/
 venv.bak/
 
-=======
->>>>>>> 55725ab42f4eb2f1055364af2165898ac7667d2d
 # Spyder project settings
 .spyderproject
 .spyproject
@@ -154,14 +139,11 @@ venv.bak/
 # Rope project settings
 .ropeproject
 
-<<<<<<< HEAD
-=======
 # Mr Developer
 .mr.developer.cfg
 .project
 .pydevproject
 
->>>>>>> 55725ab42f4eb2f1055364af2165898ac7667d2d
 # mkdocs documentation
 /site
 
@@ -172,8 +154,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-<<<<<<< HEAD
-=======
 
 ### Linux ###
 *~
@@ -300,4 +280,3 @@ $RECYCLE.BIN/
 db.sqlite3
 
 .env
->>>>>>> 55725ab42f4eb2f1055364af2165898ac7667d2d
