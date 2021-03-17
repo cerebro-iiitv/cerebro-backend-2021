@@ -1,13 +1,12 @@
-import events
-from accounts import serializers
 import random
-import accounts
-from accounts.models import Account
+
 from django.shortcuts import render
-from events.models import Event
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
+
+from events.models import Event
+from accounts.models import Account
 from registration.models import TeamMember, TeamStatus
 from registration.serializers import TeamMemberSerializer
 
@@ -97,19 +96,21 @@ class TeamRegistrationViewSet(ModelViewSet):
     def destroy(self, request, *args, **kwargs):
 
         try:
-            team_member = TeamMember.objects.get(id = kwargs.get("pk"))
+            team_member = TeamMember.objects.get(id=kwargs.get("pk"))
             team = team_member.team
             team.current_size -= 1
             if team.current_size == 0:
                 team.delete()
-            else :
+            else:
                 team.is_full = False
                 team.save()
                 team_member.delete()
             return Response(
-                {"Success": "De registered from " + team.event.title}, status=status.HTTP_204_NO_CONTENT
+                {"Success": "De registered from " + team.event.title},
+                status=status.HTTP_204_NO_CONTENT,
             )
         except TeamMember.DoesNotExist:
             return Response(
-                {"error": "Given user is not registered to the event"}, status=status.HTTP_400_BAD_REQUEST 
+                {"error": "Given user is not registered to the event"},
+                status=status.HTTP_400_BAD_REQUEST,
             )

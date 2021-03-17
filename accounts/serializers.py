@@ -1,6 +1,8 @@
-from accounts.models import Account
 from rest_framework import serializers
+
+from accounts.models import Account
 from registration.models import TeamMember
+
 
 class AccountSerializer(serializers.ModelSerializer):
     class Meta:
