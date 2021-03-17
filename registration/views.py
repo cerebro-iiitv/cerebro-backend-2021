@@ -72,7 +72,7 @@ class TeamRegistrationViewSet(ModelViewSet):
 
                 else:
                     team_code = (
-                        event.title + "#" + f"{random.randint(0, 1000)}".zfill(3)
+                        event.short_name + "#" + f"{random.randint(0, 1000)}".zfill(3)
                     )
                     team = TeamStatus(event=event, team_code=team_code)
                     if event.team_size == 1:
