@@ -37,19 +37,19 @@ class Team(models.Model):
 
     def save(self, *args, **kwargs):
         if self.role == "President":
-            self.priority = 0
+            self.priority = 1
 
         elif (
             self.role == "Student Convenor"
             or self.role == "Technical Lead"
             or self.role == "Head"
         ):
-            self.priority = 1
-
-        elif self.role == "Co-Head":
             self.priority = 2
 
-        elif self.role == "Member":
+        elif self.role == "Co-Head":
             self.priority = 3
+
+        elif self.role == "Member":
+            self.priority = 4
 
         super(Team, self).save(*args, **kwargs)
