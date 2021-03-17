@@ -14,12 +14,13 @@ class Event(models.Model):
     priority = models.IntegerField(blank=True, null=True)
     event_type = models.CharField(max_length=30, choices=EVENT_TYPE_CHOICES)
     title = models.CharField(max_length=100, blank=False)
+    short_name = models.CharField(max_length=4, blank=True)
     description = models.CharField(max_length=2000, blank=True)
     prize = models.CharField(max_length=20, blank=True)
     team_size = models.IntegerField(default=1)
     start_time = models.CharField(max_length=100, blank=False)
     end_time = models.CharField(max_length=100, blank=False)
-    rules_doc = models.FileField(upload_to="rules", blank=True)
+    rules_doc = models.URLField(blank=True)
 
     def __str__(self):
         return self.title
