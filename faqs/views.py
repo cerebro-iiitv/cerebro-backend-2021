@@ -1,7 +1,8 @@
-from django.db.models.base import Model
 from rest_framework.viewsets import ModelViewSet
-from .models import Faq
-from .serializers import FaqSerializer
+
+from faqs.models import Faq
+from faqs.serializers import FaqSerializer
+
 
 class FaqViewSet(ModelViewSet):
     serializer_class = FaqSerializer
