@@ -84,7 +84,7 @@ class TeamRegistrationViewSet(ModelViewSet):
                     )
                     team_member.save()
                 return Response(
-                    {"Success": f"Team Code:- {team_code}"},
+                    {"Team Code": team_code},
                     status=status.HTTP_201_CREATED,
                 )
         else:
