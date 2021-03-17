@@ -36,11 +36,11 @@ class Team(models.Model):
     dribbble = models.URLField(blank=True)
 
     def save(self, *args, **kwargs):
-        if self.role == "Student Convenor":
+        if self.role == "President":
             self.priority = 0
 
         elif (
-            self.role == "Convenor"
+            self.role == "Student Convenor"
             or self.role == "Technical Lead"
             or self.role == "Head"
         ):
