@@ -16,7 +16,7 @@ class RegisteredEventSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TeamMember
-        fields = ["event_name", "team_code", "start_time", "end_time"]
+        fields = ["event_name", "team_code", "start_time", "end_time", "id"]
 
 
 class AccountDashboardSerializer(serializers.ModelSerializer):
