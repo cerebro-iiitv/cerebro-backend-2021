@@ -9,4 +9,4 @@ class Account(models.Model):
     profile_pic = models.URLField(blank=True)
 
     def __str__(self):
-        return self.email + " (" + self.first_name + " " + self.last_name + ")"
+        return self.first_name + " " + self.last_name

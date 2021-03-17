@@ -14,10 +14,10 @@ class TeamStatus(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="reg_team")
     current_size = models.IntegerField(default=1)
     is_full = models.BooleanField(default=False)
-    team_code = models.CharField(max_length=5, default=None)
+    team_code = models.CharField(max_length=10, default=None)
 
     def __str__(self):
-        return f"{self.team_code}"
+        return self.team_code
 
 
 class TeamMember(models.Model):
@@ -28,3 +28,6 @@ class TeamMember(models.Model):
     team = models.ForeignKey(
         TeamStatus, on_delete=models.CASCADE, related_name="team_member"
     )
+
+    def __str__(self) -> str:
+        return self.event.title + " | " + self.team.team_code

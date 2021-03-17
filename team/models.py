@@ -35,6 +35,9 @@ class Team(models.Model):
     twitter = models.URLField(blank=True)
     dribbble = models.URLField(blank=True)
 
+    def __str__(self):
+        return self.team + " | " + self.name
+
     def save(self, *args, **kwargs):
         if self.role == "President":
             self.priority = 1

@@ -43,7 +43,7 @@ class Contact(models.Model):
     phone_number = PhoneNumberField(blank=True)
 
     def __str__(self):
-        return self.name
+        return self.event.title + " | " + self.name
 
     def save(self, *args, **kwargs):
         if self.role == "Convenor":

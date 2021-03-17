@@ -8,6 +8,10 @@ class TeamModelAdmin(admin.ModelAdmin):
         "name",
         "role",
     )
+    search_fields = (
+        "name",
+        "role",
+    )
 
 
 admin.site.register(Team, TeamModelAdmin)
