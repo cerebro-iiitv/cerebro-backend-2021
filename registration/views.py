@@ -127,7 +127,7 @@ class TeamRegistrationViewSet(ModelViewSet):
                 team.save()
                 team_member.delete()
             return Response(
-                {"Success": "De registered from " + team.event.title},
+                {"Success": "Registration removed from " + team.event.title},
                 status=status.HTTP_204_NO_CONTENT,
             )
         except TeamMember.DoesNotExist:
