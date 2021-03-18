@@ -1,11 +1,12 @@
 import requests
 from django.shortcuts import render
-from rest_framework import status
+from rest_framework import status, permissions
 from rest_framework.response import Response
 from rest_framework.utils import json
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.authentication import TokenAuthentication
 
 from accounts.models import Account
 from accounts.serializers import AccountDashboardSerializer, AccountSerializer
@@ -18,12 +19,15 @@ def index(request):
 class AccountViewSet(ModelViewSet):
     serializer_class = AccountSerializer
     queryset = Account.objects.all()
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
 
 
 class DashboardViewSet(ModelViewSet):
     serializer_class = AccountDashboardSerializer
     queryset = Account.objects.all()
     http_method_names = ["get"]
+
 
 class GoogleLogin(APIView):
     def post(self, request):
