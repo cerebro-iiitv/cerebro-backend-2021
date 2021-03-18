@@ -27,7 +27,6 @@ DEBUG = config("DEBUG", default=True, cast=bool)
 
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv())
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -38,6 +37,7 @@ INSTALLED_APPS = [
     "faqs.apps.FaqsConfig",
     "corsheaders",
     "rest_framework",
+    "rest_framework.authtoken",
     "phonenumber_field",
     "django.contrib.admin",
     "django.contrib.auth",

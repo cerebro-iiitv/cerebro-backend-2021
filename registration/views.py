@@ -4,6 +4,7 @@ from django.shortcuts import render
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.authentication import TokenAuthentication
 
 from events.models import Event
 from accounts.models import Account
@@ -18,8 +19,15 @@ def index(request):
 class TeamRegistrationViewSet(ModelViewSet):
     serializer_class = TeamMemberSerializer
     queryset = TeamMember.objects.all()
+    authentication_classes = [TokenAuthentication]
 
     def create(self, request, *args, **kwargs):
+
+        if not request.user.is_authenticated or not request.user.is_staff:
+            return Response(
+                {"error": "Permission denied"}, status=status.HTTP_401_UNAUTHORIZED
+            )
+        
 
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid(raise_exception=True):
@@ -95,6 +103,11 @@ class TeamRegistrationViewSet(ModelViewSet):
 
     def destroy(self, request, *args, **kwargs):
 
+        if not request.user.is_authenticated or not request.user.is_staff:
+            return Response(
+                {"error": "Permission denied"}, status=status.HTTP_401_UNAUTHORIZED
+            )
+
         try:
             team_member = TeamMember.objects.get(id=kwargs.get("pk"))
             team = team_member.team
@@ -106,7 +119,7 @@ class TeamRegistrationViewSet(ModelViewSet):
                 team.save()
                 team_member.delete()
             return Response(
-                {"Success": "De registered from " + team.event.title},
+                {"Success": "Registration removed from " + team.event.title},
                 status=status.HTTP_204_NO_CONTENT,
             )
         except TeamMember.DoesNotExist:
