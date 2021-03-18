@@ -6,6 +6,7 @@ from events.serializers import ContactSerializer, EventSerializer
 
 class EventViewSet(ModelViewSet):
     serializer_class = EventSerializer
+    http_method_names = ["get"]
 
     def get_queryset(self):
         if self.request.GET.get("type") is not None:
