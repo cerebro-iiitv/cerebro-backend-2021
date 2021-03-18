@@ -23,15 +23,11 @@ class TeamRegistrationViewSet(ModelViewSet):
 
     def create(self, request, *args, **kwargs):
 
-        if not request.user.is_authenticated:
+        if not request.user.is_authenticated or not request.user.is_staff:
             return Response(
                 {"error": "Permission denied"}, status=status.HTTP_401_UNAUTHORIZED
             )
         
-        if not request.user.is_staff:
-            return Response(
-                {"error": "Permission denied"}, status=status.HTTP_401_UNAUTHORIZED
-            )
 
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid(raise_exception=True):
@@ -107,11 +103,7 @@ class TeamRegistrationViewSet(ModelViewSet):
 
     def destroy(self, request, *args, **kwargs):
 
-        if not request.user.is_authenticated:
-            return Response(
-                {"error": "Permission denied"}, status=status.HTTP_401_UNAUTHORIZED
-            )
-        if not request.user.is_staff:
+        if not request.user.is_authenticated or not request.user.is_staff:
             return Response(
                 {"error": "Permission denied"}, status=status.HTTP_401_UNAUTHORIZED
             )

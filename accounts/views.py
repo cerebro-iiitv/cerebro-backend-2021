@@ -23,7 +23,7 @@ class AccountViewSet(ModelViewSet):
 class DashboardViewSet(ModelViewSet):
     serializer_class = AccountDashboardSerializer
     queryset = Account.objects.all()
-
+    http_method_names = ["get"]
 
 class GoogleLogin(APIView):
     def post(self, request):

@@ -7,3 +7,4 @@ from faqs.serializers import FaqSerializer
 class FaqViewSet(ModelViewSet):
     serializer_class = FaqSerializer
     queryset = Faq.objects.all()
+    http_method_names = ["get"]

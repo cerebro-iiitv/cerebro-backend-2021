@@ -6,6 +6,7 @@ from team.serializers import TeamSerializer
 
 class TeamViewSet(ModelViewSet):
     serializer_class = TeamSerializer
+    http_method_names = ["get"]
 
     def get_queryset(self):
         if self.request.GET.get("team") is not None:
