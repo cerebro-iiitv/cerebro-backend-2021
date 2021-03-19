@@ -78,3 +78,14 @@ class GoogleLogin(APIView):
         response["user_id"] = user.id
         response["access_token"] = str(token)
         return Response(response, status=status.HTTP_200_OK)
+
+
+class Logout(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+    http_method_names = ["get"]
+
+    def get(self, request, *args, **kwargs):
+        if request.user.auth_token is not None:
+            request.user.auth_token.delete()
+            return Response({"Success": "Logout"}, status=status.HTTP_200_OK)
