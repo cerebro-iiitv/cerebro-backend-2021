@@ -5,6 +5,8 @@ from registration.models import TeamMember
 
 
 class AccountSerializer(serializers.ModelSerializer):
+    
+
     class Meta:
         model = Account
         fields = "__all__"
@@ -23,7 +25,10 @@ class RegisteredEventSerializer(serializers.ModelSerializer):
 
 class AccountDashboardSerializer(serializers.ModelSerializer):
     user_team = RegisteredEventSerializer(many=True)
+    first_name = serializers.CharField(source="user.first_name")
+    last_name = serializers.CharField(source="user.last_name")
+    email = serializers.CharField(source="user.email")
 
     class Meta:
         model = Account
-        fields = "__all__"
+        fields = ["first_name", "last_name", "email", "mobile_number", "profile_pic", "user_team"]
