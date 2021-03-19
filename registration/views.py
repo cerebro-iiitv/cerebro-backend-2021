@@ -33,9 +33,9 @@ class TeamRegistrationViewSet(ModelViewSet):
         team_code = request.data.get("team_code")
 
         try:
-            TeamMember.objects.get(account=account_id, event=event_id)
+            team_member = TeamMember.objects.get(account=account_id, event=event_id)
             return Response(
-                {"Error": f"{account_id} already registered to the event"},
+                {"Error": f"{team_member.account.user.first_name} already registered to the event"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
         except TeamMember.DoesNotExist:
@@ -64,7 +64,7 @@ class TeamRegistrationViewSet(ModelViewSet):
                             reg_team.save()
                             return Response(
                                 {
-                                    "Success": f"{account_id} added to team with code {team_code}"
+                                    "Success": f"{account.user.first_name} added to team with code {team_code}"
                                 },
                                 status=status.HTTP_201_CREATED,
                             )
