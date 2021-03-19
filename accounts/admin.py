@@ -4,24 +4,23 @@ from accounts.models import Account
 
 class AccountAdmin(admin.ModelAdmin):
     readonly_fields = (
-        "first_name",
-        "last_name",
-        "email",
+        "id",
+        "user",
         "mobile_number",
         "profile_pic",
     )
     list_display = (
-        "first_name",
-        "last_name",
-        "email",
+        "id",
+        "user",
         "mobile_number",
     )
     list_display_links = (
-        "first_name",
-        "email",
-        "last_name",
+        "id",
+        "user",
+        "mobile_number",
     )
-    search_fields = ("first_name", "last_name", "email", "mobile_number")
+    raw_id_fields = ("user",)
+    search_fields = ("user", "mobile_number")
 
 
 admin.site.register(Account, AccountAdmin)
