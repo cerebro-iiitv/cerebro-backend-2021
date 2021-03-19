@@ -68,14 +68,14 @@ class GoogleLogin(APIView):
                 last_name=data["family_name"],
                 email=data["email"],
             )
-            Account.objects.create(
+            account = Account.objects.create(
                 user=user,
                 profile_pic=data["picture"],
             )
         token = Token.objects.create(user=user)
         response = {}
         response["email"] = user.email
-        response["user_id"] = user.id
+        response["user_id"] = account.id
         response["access_token"] = str(token)
         return Response(response, status=status.HTTP_200_OK)
 
