@@ -4,6 +4,7 @@ from registration.models import TeamStatus, TeamMember
 
 class TeamMemberAdmin(admin.ModelAdmin):
     list_display = (
+        "id",
         "account",
         "event",
         "team",

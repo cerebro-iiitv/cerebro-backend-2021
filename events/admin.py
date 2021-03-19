@@ -5,6 +5,7 @@ from events.models import Contact, Event
 
 class EventAdmin(admin.ModelAdmin):
     list_display = (
+        "id",
         "title",
         "short_name",
         "prize",
@@ -16,6 +17,7 @@ class EventAdmin(admin.ModelAdmin):
 
 class ContactAdmin(admin.ModelAdmin):
     list_display = (
+        "id",
         "event",
         "name",
         "role",
