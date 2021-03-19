@@ -61,6 +61,7 @@ class GoogleLogin(APIView):
 
         try:
             user = User.objects.get(email=data["email"])
+            account = Account.objects.get(user=user)
         except User.DoesNotExist:
             user = User.objects.create(
                 username=data["given_name"],
