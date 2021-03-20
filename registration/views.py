@@ -1,14 +1,15 @@
 import random
 
+from accounts.authentication import MultipleTokenAuthentication
+from accounts.models import Account
 from django.shortcuts import render
-from rest_framework import status
+from events.models import Event
+from rest_framework import permissions, status
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.exceptions import MethodNotAllowed
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.authtoken.models import Token
 
-from events.models import Event
-from accounts.models import Account
 from registration.models import TeamMember, TeamStatus
 from registration.serializers import TeamMemberSerializer
 
@@ -20,10 +21,14 @@ def index(request):
 class TeamRegistrationViewSet(ModelViewSet):
     serializer_class = TeamMemberSerializer
     queryset = TeamMember.objects.all()
-    authentication_classes = [TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [MultipleTokenAuthentication, TokenAuthentication]
+    http_method_names = ["post", "delete"]
+
+    def list(self, request):
+        raise MethodNotAllowed("GET", detail="Method 'GET' not allowed without lookup")
 
     def create(self, request, *args, **kwargs):
-
         if not request.user.is_authenticated:
             return Response(
                 {"error": "Permission denied"}, status=status.HTTP_401_UNAUTHORIZED
@@ -33,11 +38,20 @@ class TeamRegistrationViewSet(ModelViewSet):
         team_code = request.data.get("team_code")
 
         try:
-            team_member = TeamMember.objects.get(account=account_id, event=event_id)
-            return Response(
-                {"Error": f"{team_member.account.user.first_name} already registered to the event"},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+            account = Account.objects.get(id=account_id)
+            if request.user == account.user:
+                team_member = TeamMember.objects.get(account=account_id, event=event_id)
+                return Response(
+                    {
+                        "Error": f"{team_member.account.user.first_name} already registered to the event"
+                    },
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            else:
+                return Response(
+                    {"error": "Invalid Token"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
         except TeamMember.DoesNotExist:
             account = Account.objects.get(id=account_id)
 

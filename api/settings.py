@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     "faqs.apps.FaqsConfig",
     "corsheaders",
     "rest_framework",
-    "rest_framework.authtoken",
     "phonenumber_field",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -114,27 +113,15 @@ AUTH_PASSWORD_VALIDATORS = [
 # REST FRAMEWORK settings
 
 REST_FRAMEWORK = {
-    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    # 'PAGE_SIZE': 25,
-    # 'DEFAULT_PERMISSION_CLASSES': [
-    #     'rest_framework.permissions.IsAuthenticated',
-    # ]
-    # 'DEFAULT_AUTHENTICATION_CLASSES': [
-    #     'rest_framework.authentication.TokenAuthentication',
-    # ],
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
+        "accounts.authentication.MultipleTokenAuthentication",
     ],
 }
 
 
 # cors headers
 CORS_ORIGIN_ALLOW_ALL = True
-
-
-# CORS_ORIGIN_WHITELIST = (
-#       'http://localhost:4200',
-# )
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
