@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     "faqs.apps.FaqsConfig",
     "corsheaders",
     "rest_framework",
-    "rest_framework.authtoken",
+    # "rest_framework.authtoken",
     "phonenumber_field",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -123,7 +123,7 @@ REST_FRAMEWORK = {
     #     'rest_framework.authentication.TokenAuthentication',
     # ],
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "accounts.authentication.ExpiringTokenAuthentication"
     ],
 }
 

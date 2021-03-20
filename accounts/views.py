@@ -12,6 +12,7 @@ from rest_framework.viewsets import ModelViewSet
 
 from accounts.models import Account
 from accounts.serializers import AccountDashboardSerializer, AccountSerializer
+from accounts.models import AuthToken
 
 
 def index(request):
@@ -73,7 +74,7 @@ class GoogleLogin(APIView):
                 user=user,
                 profile_pic=data["picture"],
             )
-        token = Token.objects.create(user=user)
+        token = AuthToken.objects.create(user=user)
         response = {}
         response["email"] = user.email
         response["user_id"] = account.id

@@ -24,6 +24,7 @@ class TeamRegistrationViewSet(ModelViewSet):
 
     def create(self, request, *args, **kwargs):
 
+        print(request.user)
         if not request.user.is_authenticated:
             return Response(
                 {"error": "Permission denied"}, status=status.HTTP_401_UNAUTHORIZED

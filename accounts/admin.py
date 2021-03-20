@@ -1,6 +1,5 @@
 from django.contrib import admin
-from accounts.models import Account
-
+from accounts.models import Account, AuthToken
 
 class AccountAdmin(admin.ModelAdmin):
     readonly_fields = (
@@ -22,5 +21,6 @@ class AccountAdmin(admin.ModelAdmin):
     raw_id_fields = ("user",)
     search_fields = ("user", "mobile_number")
 
+admin.site.register(AuthToken)
 
 admin.site.register(Account, AccountAdmin)
