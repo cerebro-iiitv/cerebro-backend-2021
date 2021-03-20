@@ -28,7 +28,7 @@ class AccountViewSet(ModelViewSet):
 class DashboardViewSet(ModelViewSet):
     serializer_class = AccountDashboardSerializer
     queryset = Account.objects.all()
-    http_method_names = ["get"]
+    http_method_names = ["get", "put", "paatch", "post", "head"]
     permission_classes = [permissions.IsAuthenticated]
     authentication_classes = [MultipleTokenAuthentication]
 
