@@ -3,7 +3,6 @@ import requests
 from django.contrib.auth.models import User
 from django.shortcuts import render
 from rest_framework import permissions, status
-from rest_framework.authentication import TokenAuthentication
 from rest_framework.exceptions import MethodNotAllowed
 from rest_framework.response import Response
 from rest_framework.utils import json
@@ -92,10 +91,13 @@ class GoogleLogin(APIView):
 
 class Logout(APIView):
     permission_classes = [permissions.IsAuthenticated]
-    authentication_classes = [TokenAuthentication]
+    authentication_classes = [MultipleTokenAuthentication]
     http_method_names = ["get"]
 
     def get(self, request, *args, **kwargs):
-        if request.user.auth_token is not None:
-            request.user.auth_token.delete()
+        if request.META.get("HTTP_AUTHORIZATION") is not None:
+            _, token = request.META.get("HTTP_AUTHORIZATION").split(" ")
+            AuthToken.objects.get(key=token).delete()
             return Response({"Success": "Logout"}, status=status.HTTP_200_OK)
+        else:
+            return Response({"Error": "Token not found!"}, status=status.status.HTTP_404_NOT_FOUND)
