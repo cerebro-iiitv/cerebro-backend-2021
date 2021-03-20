@@ -14,10 +14,14 @@ class Account(models.Model):
     def __str__(self):
         return self.user.first_name + " " + self.user.last_name
 
+
 class AuthToken(Token):
     key = models.CharField(_("Key"), max_length=40, db_index=True, unique=True)
-    # relation to user is a ForeignKey, so each user can have more than one token
+
+    # Relation to user is a ForeignKey, so each user can have more than one token
     user = models.ForeignKey(
-        User, related_name='auth_tokens',
-        on_delete=models.CASCADE, verbose_name=_("User")
+        User,
+        related_name="auth_tokens",
+        on_delete=models.CASCADE,
+        verbose_name=_("User"),
     )

@@ -1,18 +1,18 @@
 import requests
+
 from django.contrib.auth.models import User
 from django.shortcuts import render
 from rest_framework import permissions, status
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.authtoken.models import Token
 from rest_framework.exceptions import MethodNotAllowed
 from rest_framework.response import Response
 from rest_framework.utils import json
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
-from accounts.models import Account
+from accounts.authentication import MultipleTokenAuthentication
+from accounts.models import Account, AuthToken
 from accounts.serializers import AccountDashboardSerializer, AccountSerializer
-from accounts.models import AuthToken
 
 
 def index(request):
@@ -23,7 +23,7 @@ class AccountViewSet(ModelViewSet):
     serializer_class = AccountSerializer
     queryset = Account.objects.all()
     permission_classes = [permissions.IsAuthenticated]
-    authentication_classes = [TokenAuthentication]
+    authentication_classes = [MultipleTokenAuthentication]
 
 
 class DashboardViewSet(ModelViewSet):
@@ -31,7 +31,7 @@ class DashboardViewSet(ModelViewSet):
     queryset = Account.objects.all()
     http_method_names = ["get"]
     permission_classes = [permissions.IsAuthenticated]
-    authentication_classes = [TokenAuthentication]
+    authentication_classes = [MultipleTokenAuthentication]
 
     def list(self, request):
         raise MethodNotAllowed("GET", detail="Method 'GET' not allowed without lookup")
@@ -62,7 +62,14 @@ class GoogleLogin(APIView):
 
         try:
             user = User.objects.get(email=data["email"])
-            account = Account.objects.get(user=user)
+            try:
+                account = Account.objects.get(user=user)
+            except Account.DoesNotExist:
+                account = Account.objects.create(
+                    user=user,
+                    profile_pic=data["picture"],
+                )
+
         except User.DoesNotExist:
             user = User.objects.create(
                 username=data["given_name"],
@@ -74,6 +81,7 @@ class GoogleLogin(APIView):
                 user=user,
                 profile_pic=data["picture"],
             )
+
         token = AuthToken.objects.create(user=user)
         response = {}
         response["email"] = user.email
