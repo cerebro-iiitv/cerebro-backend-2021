@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     "registration.apps.RegistrationConfig",
     "team.apps.TeamConfig",
     "faqs.apps.FaqsConfig",
+    "docs.apps.DocsConfig",
     "corsheaders",
     "rest_framework",
     "phonenumber_field",
