@@ -43,7 +43,7 @@ class TeamRegistrationViewSet(ModelViewSet):
                 team_member = TeamMember.objects.get(account=account_id, event=event_id)
                 return Response(
                     {
-                        "Error": f"{team_member.account.user.first_name} already registered to the event"
+                        "Error": f"{team_member.account.user.first_name}, you have already registered to the event!"
                     },
                     status=status.HTTP_400_BAD_REQUEST,
                 )
@@ -84,7 +84,7 @@ class TeamRegistrationViewSet(ModelViewSet):
                             )
                         else:
                             return Response(
-                                {"Error": "The Team is full"},
+                                {"Error": "The Team is full!"},
                                 status=status.HTTP_406_NOT_ACCEPTABLE,
                             )
                     except TeamStatus.DoesNotExist:
