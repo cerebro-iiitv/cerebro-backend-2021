@@ -29,5 +29,6 @@ class EventSerializer(serializers.ModelSerializer):
             "start_time",
             "end_time",
             "rules_doc",
+            "social_media",
             "contacts",
         )
