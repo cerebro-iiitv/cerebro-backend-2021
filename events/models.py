@@ -21,6 +21,7 @@ class Event(models.Model):
     start_time = models.CharField(max_length=100, blank=False)
     end_time = models.CharField(max_length=100, blank=False)
     rules_doc = models.URLField(blank=True)
+    social_media = models.URLField(null=True, blank=True)
 
     def __str__(self):
         return self.title
