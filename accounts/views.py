@@ -70,12 +70,20 @@ class GoogleLogin(APIView):
                 )
 
         except User.DoesNotExist:
-            user = User.objects.create(
-                username=data["given_name"],
-                first_name=data["given_name"],
-                last_name=data["family_name"],
-                email=data["email"],
-            )
+            data_dict = {
+                "username": data["email"],
+                "first_name": "",
+                "last_name": "",
+                "email": data["email"]
+            }
+            
+            if "given_name" in data.keys():
+                data_dict["first_name"] = data["given_name"]
+            
+            if "family_name" in data.keys():
+                data_dict["last_name"] = data["family_name"]
+            
+            user = User.objects.create(**data_dict)
             account = Account.objects.create(
                 user=user,
                 profile_pic=data["picture"],

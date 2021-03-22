@@ -62,6 +62,9 @@ class TeamRegistrationViewSet(ModelViewSet):
                     try:
                         reg_team = TeamStatus.objects.get(team_code=team_code)
                         if event_id != reg_team.event.id:
+                            print("event id and dosen't match provided team code")
+                            print(event_id)
+                            print(reg_team.event.id)
                             return Response(
                                 {"Error": "Invalid Team Code"},
                                 status=status.HTTP_400_BAD_REQUEST,
@@ -88,6 +91,7 @@ class TeamRegistrationViewSet(ModelViewSet):
                                 status=status.HTTP_406_NOT_ACCEPTABLE,
                             )
                     except TeamStatus.DoesNotExist:
+                        print("No such team found")
                         return Response(
                             {"Error": "Invalid Team Code"},
                             status=status.HTTP_400_BAD_REQUEST,
