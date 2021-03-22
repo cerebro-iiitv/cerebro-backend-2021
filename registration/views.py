@@ -91,7 +91,10 @@ class TeamRegistrationViewSet(ModelViewSet):
                                 status=status.HTTP_406_NOT_ACCEPTABLE,
                             )
                     except TeamStatus.DoesNotExist:
+                        print("\n")
                         print("No such team found")
+                        print(team_code)
+                        print("\n")
                         return Response(
                             {"Error": "Invalid Team Code"},
                             status=status.HTTP_400_BAD_REQUEST,
