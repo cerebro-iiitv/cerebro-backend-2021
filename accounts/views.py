@@ -70,6 +70,15 @@ class GoogleLogin(APIView):
                 )
 
         except User.DoesNotExist:
+            if data["given_name"]:
+                first_name = data["given_name"]
+            else:
+                first_name = " "
+            if data["family_name"]:
+                last_name = data["family_name"]
+            else:
+                last_name = " "
+
             user = User.objects.create(
                 username=data["email"],
                 first_name=data["given_name"],
