@@ -59,6 +59,7 @@ class TeamRegistrationViewSet(ModelViewSet):
             if request.user == account.user:
                 event = Event.objects.get(id=event_id)
                 if team_code:
+                    team_code = team_code.upper()
                     try:
                         reg_team = TeamStatus.objects.get(team_code=team_code)
                         if event_id != reg_team.event.id:
