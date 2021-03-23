@@ -10,7 +10,7 @@ class Account(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     mobile_number = models.CharField(max_length=12, blank=True)
     profile_pic = models.URLField(blank=True)
-    institute = models.CharField(max_length=225, blank=True)
+    institute = models.CharField(max_length=225, blank=True, null=True)
 
     def __str__(self):
         return self.user.first_name + " " + self.user.last_name
