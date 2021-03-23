@@ -183,7 +183,9 @@ class CsvGenerate(APIView):
                 for team in teams:
                     teammembers = TeamMember.objects.filter(team=team)
                     for teammember in teammembers:
-                        writer.writerow([teammember.account.user.email, teammember.account.user.first_name, teammember.account.user.last_name, team.team_code, event.title])
+                        writer.writerow(
+                            [teammember.account.user.email, teammember.account.user.first_name, teammember.account.user.last_name,
+                            teammember.account.mobile_number, teammember.account.institute, team.team_code, event.title])
                 return response
             except Event.DoesNotExist:
                 return Response(
