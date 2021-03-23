@@ -41,6 +41,7 @@ class TeamRegistrationViewSet(ModelViewSet):
             account = Account.objects.get(id=account_id)
             if request.user == account.user:
                 team_member = TeamMember.objects.get(account=account_id, event=event_id)
+                print("Already registered")
                 return Response(
                     {
                         "Error": f"{team_member.account.user.first_name}, you have already registered to the event!"
@@ -48,6 +49,7 @@ class TeamRegistrationViewSet(ModelViewSet):
                     status=status.HTTP_400_BAD_REQUEST,
                 )
             else:
+                print("Invalid token, user and token's user don't match")
                 return Response(
                     {"error": "Invalid Token"},
                     status=status.HTTP_400_BAD_REQUEST,
@@ -119,6 +121,7 @@ class TeamRegistrationViewSet(ModelViewSet):
                     )
 
             else:
+                print("Invalid token, user and token's user don't match")
                 return Response(
                     {"error": "Invalid Token"},
                     status=status.HTTP_400_BAD_REQUEST,
@@ -150,11 +153,13 @@ class TeamRegistrationViewSet(ModelViewSet):
                 )
 
             else:
+                print("Invalid token, user and token's user don't match")
                 return Response(
                     {"error": "Invalid Token"},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
         except TeamMember.DoesNotExist:
+            print("User not registered to the event")
             return Response(
                 {"error": "Given user is not registered to the event"},
                 status=status.HTTP_400_BAD_REQUEST,
