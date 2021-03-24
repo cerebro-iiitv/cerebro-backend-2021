@@ -185,6 +185,41 @@ class CsvGenerate(APIView):
             try:
                 event = Event.objects.get(pk=pk)
                 teams = TeamStatus.objects.filter(event=event, is_full=True)
+                writer.writerow(["Email Id", "First Name", "Last Name", "Mobile Number", "Institute", "Team Code", "Event"])
+                for team in teams:
+                    teammembers = TeamMember.objects.filter(team=team)
+                    for teammember in teammembers:
+                        writer.writerow(
+                            [teammember.account.user.email, teammember.account.user.first_name, teammember.account.user.last_name,
+                            teammember.account.mobile_number, teammember.account.institute, team.team_code, event.title])
+                return response
+            except Event.DoesNotExist:
+                return Response(
+                    {"Error": "No such event"},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+        else:
+            return Response(
+                {"Error": "Access denied"},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+class AllTeamCsv(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [MultipleTokenAuthentication, TokenAuthentication]
+    
+    def get(self, request, *args, **kwargs):
+
+        if(request.user.is_superuser):
+            pk = kwargs.get("pk")
+            response = HttpResponse(content_type='text/csv')
+            response['Content-Disposition'] = 'attachment; filename="team.csv"'
+            writer = csv.writer(response)
+
+            try:
+                event = Event.objects.get(pk=pk)
+                teams = TeamStatus.objects.filter(event=event)
+                writer.writerow(["Email Id", "First Name", "Last Name", "Mobile Number", "Institute", "Team Code", "Event"])
                 for team in teams:
                     teammembers = TeamMember.objects.filter(team=team)
                     for teammember in teammembers:
