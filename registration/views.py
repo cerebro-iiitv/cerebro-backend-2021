@@ -185,6 +185,7 @@ class CsvGenerate(APIView):
             try:
                 event = Event.objects.get(pk=pk)
                 teams = TeamStatus.objects.filter(event=event, is_full=True)
+                writer.writerow(["Email Id", "First Name", "Last Name", "Mobile Number", "Institute", "Team Code", "Event"])
                 for team in teams:
                     teammembers = TeamMember.objects.filter(team=team)
                     for teammember in teammembers:
