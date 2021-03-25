@@ -3,7 +3,7 @@ from django.urls import path
 from rest_framework.routers import SimpleRouter
 from rest_framework.urlpatterns import format_suffix_patterns
 
-from registration.views import TeamRegistrationViewSet, CsvGenerate, AllTeamCsv, index
+from registration.views import TeamRegistrationViewSet, CsvGenerate, TeamData, index
 
 router = SimpleRouter()
 router.register("team-register", TeamRegistrationViewSet, basename="api-team")
@@ -12,7 +12,7 @@ router.register("team-register", TeamRegistrationViewSet, basename="api-team")
 urlpatterns = [
     path("", index, name="index"),
     path("csv-generate/<int:pk>", CsvGenerate.as_view(), name="csv-generate"),
-    path("csv-allteam/<int:pk>", AllTeamCsv.as_view(), name="csv-allteam"),
+    path("teamdata/", TeamData.as_view(), name="csv-allteam"),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
