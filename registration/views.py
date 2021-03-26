@@ -1,5 +1,6 @@
 import random
 import csv
+import pandas as pd
 
 from rest_framework.views import APIView
 
@@ -8,11 +9,12 @@ from accounts.models import Account
 from django.shortcuts import render
 from events.models import Event
 from rest_framework import permissions, status
-from rest_framework.authentication import TokenAuthentication
+from rest_framework.authentication import BasicAuthentication, TokenAuthentication
 from rest_framework.exceptions import MethodNotAllowed
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
 
 from registration.models import TeamMember, TeamStatus
 from registration.serializers import TeamMemberSerializer
@@ -204,36 +206,47 @@ class CsvGenerate(APIView):
                     status=status.HTTP_400_BAD_REQUEST
                 )
 
-class AllTeamCsv(APIView):
+
+class TeamData(APIView):
     permission_classes = [permissions.IsAuthenticated]
-    authentication_classes = [MultipleTokenAuthentication, TokenAuthentication]
-    
+    authentication_classes = [BasicAuthentication]
+  
     def get(self, request, *args, **kwargs):
 
-        if(request.user.is_superuser):
-            pk = kwargs.get("pk")
-            response = HttpResponse(content_type='text/csv')
-            response['Content-Disposition'] = 'attachment; filename="team.csv"'
-            writer = csv.writer(response)
-
-            try:
-                event = Event.objects.get(pk=pk)
-                teams = TeamStatus.objects.filter(event=event)
-                writer.writerow(["Email Id", "First Name", "Last Name", "Mobile Number", "Institute", "Team Code", "Event"])
-                for team in teams:
-                    teammembers = TeamMember.objects.filter(team=team)
-                    for teammember in teammembers:
-                        writer.writerow(
-                            [teammember.account.user.email, teammember.account.user.first_name, teammember.account.user.last_name,
-                            teammember.account.mobile_number, teammember.account.institute, team.team_code, event.title])
-                return response
-            except Event.DoesNotExist:
-                return Response(
-                    {"Error": "No such event"},
-                    status=status.HTTP_400_BAD_REQUEST
-                )
-        else:
+        try:
+            short_name = request.user.username
+            event = Event.objects.get(short_name=short_name)
+            teams = TeamStatus.objects.filter(event=event)
+            data = []
+            
+            for team in teams:
+                teammembers = TeamMember.objects.filter(team=team)
+                for teammember in teammembers:
+                    teammember_dict = {
+                        "Email Id": teammember.account.user.email,
+                        "First Name": teammember.account.user.first_name,
+                        "Last Name": teammember.account.user.last_name,
+                        "Mobile Number": teammember.account.mobile_number,
+                        "Institute": teammember.account.institute,
+                        "Team Code": team.team_code,    
+                    }
+                    data.append(teammember_dict)
+            
+            if len(data) == 0:
+                df = pd.DataFrame(
+                    data, 
+                    columns=(["Email Id", "First Name", "Last Name", "Mobile Number", "Institute", "Team Code"]
+                ))
+            else:
+                df = pd.DataFrame(data)
+            
+            response = HttpResponse(content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+            response["Content-Disposition"] = "attachment; filename=participants.xlsx"
+            df.to_excel(response)    
+            return response
+        
+        except Event.DoesNotExist:
             return Response(
-                {"Error": "Access denied"},
-                    status=status.HTTP_400_BAD_REQUEST
-                )
+                {"Error": f"Access denied for {request.user.username}"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
