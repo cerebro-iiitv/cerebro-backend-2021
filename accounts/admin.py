@@ -3,12 +3,12 @@ from accounts.models import Account, AuthToken
 
 
 class AccountAdmin(admin.ModelAdmin):
-    readonly_fields = (
-        "id",
-        "user",
-        "mobile_number",
-        "profile_pic",
-    )
+    # readonly_fields = (
+    #     "id",
+    #     "user",
+    #     "mobile_number",
+    #     "profile_pic",
+    # )
     list_display = (
         "id",
         "user",
