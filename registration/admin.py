@@ -15,9 +15,9 @@ class TeamMemberAdmin(admin.ModelAdmin):
         "team",
     )
     search_fields = (
-        "event",
-        "team",
-        "account",
+        "event__title",
+        "team__team_code",
+        "account__user__email",
     )
 
 
@@ -29,11 +29,12 @@ class TeamStatusAdmin(admin.ModelAdmin):
         "is_full",
         "team_code",
     )
+    raw_id_fields = ("event",)
     search_fields = (
-        "event",
+        "event__title",
         "team_code",
     )
-    raw_id_fields = ("event",)
+    
 
 
 admin.site.register(TeamMember, TeamMemberAdmin)
