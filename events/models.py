@@ -22,6 +22,7 @@ class Event(models.Model):
     end_time = models.CharField(max_length=100, blank=False)
     rules_doc = models.URLField(blank=True)
     social_media = models.URLField(null=True, blank=True)
+    is_closed = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
