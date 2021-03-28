@@ -1,5 +1,6 @@
 import random
 import csv
+from django.db.models.deletion import DO_NOTHING
 import pandas as pd
 
 from rest_framework.views import APIView
@@ -109,9 +110,13 @@ class TeamRegistrationViewSet(ModelViewSet):
                             status=status.HTTP_400_BAD_REQUEST,
                         )
                 else:
-                    team_code = (
-                        event.short_name + "#" + f"{random.randint(0, 1000)}".zfill(3)
-                    )
+                    while(True):
+                        team_code = (
+                            event.short_name + "#" + f"{random.randint(0, 100000)}".zfill(5)
+                        )
+                        if not TeamStatus.objects.filter(team_code=team_code).exists():
+                            break
+                    
                     team = TeamStatus.objects.create(event=event, team_code=team_code)
                     if event.team_size == 1:
                         team.is_full = True
