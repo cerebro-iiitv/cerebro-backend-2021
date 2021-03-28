@@ -14,7 +14,7 @@ class TeamStatus(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="reg_team")
     current_size = models.IntegerField(default=1)
     is_full = models.BooleanField(default=False)
-    team_code = models.CharField(max_length=10, default=None)
+    team_code = models.CharField(max_length=15, default=None)
 
     def __str__(self):
         return self.team_code
